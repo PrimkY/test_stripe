@@ -14,13 +14,13 @@ export class UserSubscription {
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION',
   })
-  @JoinColumn([{ name: 'user_id', referencedColumnName: 'id' }])
-  users: User[];
+  @JoinColumn([{ name: 'subscription_id', referencedColumnName: 'id' }])
+  subscriptions: Subscription[];
 
-  @ManyToOne(() => User, (user) => user.subscription, {
+  @ManyToOne(() => User, (user) => user.subscriptions, {
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION',
   })
-  @JoinColumn([{ name: 'subscription_id', referencedColumnName: 'id' }])
-  subscriptions: Subscription[];
+  @JoinColumn([{ name: 'user_id', referencedColumnName: 'id' }])
+  users: User[];
 }

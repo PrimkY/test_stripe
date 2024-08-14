@@ -36,5 +36,5 @@ export class User {
       referencedColumnName: 'id',
     },
   })
-  subscription?: Subscription[];
+  subscriptions?: Subscription[];
 }

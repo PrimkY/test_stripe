@@ -30,20 +30,21 @@ export class UserService {
     return this.usersRepository.save(user);
   }
 
-  async addSubscription(
-    userId: number,
-    subscriptionId: number,
+  async addSubscription( dto: AddSubscriptionDto
   ): Promise<UserSubscription> {
-    const user = await this.usersRepository.findOne({ where: { id: userId } });
+    const user = await this.usersRepository.findOne({ where: { id: dto.userId } });
     if(!user) {
       throw new NotFoundException()
     }
     const subscription = await this.subscriptionsRepository.findOne({
-      where: { id: subscriptionId },
+      where: { id: dto.subscriptionId },
     });
     if(!subscription) {
       throw new NotFoundException()
     }
-    return await this.userSubscriptionsRepository.save({userId, subscriptionId});
+    console.log(dto)
+    const result =  this.userSubscriptionsRepository.save(dto);
+    console.log(result)
+    return await result;
   }
 }

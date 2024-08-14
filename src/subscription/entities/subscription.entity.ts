@@ -15,7 +15,7 @@ export class Subscription {
   @Column()
   pereodicity: string;
 
-  @ManyToMany(() => User, (user) => user.subscription, {
+  @ManyToMany(() => User, (user) => user.subscriptions, {
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION',
   })

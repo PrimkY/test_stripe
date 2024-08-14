@@ -42,10 +42,7 @@ export class UserController {
   @ApiOperation({ summary: 'Method to add subscription by id to user by id' })
   @ApiResponse({ status: 200, type: AddSubscriptionDto })
   @Put('/add')
-  addSubscription(@Body() addSubscriptionDto: AddSubscriptionDto) {
-    return this.userService.addSubscription(
-      addSubscriptionDto.userId,
-      addSubscriptionDto.subscriptionId,
-    );
+  addSubscription(@Body() dto: AddSubscriptionDto) {
+    return this.userService.addSubscription(dto);
   }
 }
