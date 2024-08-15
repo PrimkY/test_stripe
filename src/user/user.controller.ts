@@ -25,13 +25,6 @@ export class UserController {
     return this.userService.create(userDto);
   }
 
-  @ApiOperation({ summary: 'Get user by email' })
-  @ApiResponse({ status: 200, type: [User] })
-  @Get(':email')
-  getUserByEmail(@Param('email') email: string) {
-    return this.userService.findByEmail(email);
-  }
-
   @ApiOperation({ summary: 'Method to get one user by id' })
   @ApiResponse({ status: 200, type: User })
   @Get(':id')
@@ -41,8 +34,15 @@ export class UserController {
 
   @ApiOperation({ summary: 'Method to add subscription by id to user by id' })
   @ApiResponse({ status: 200, type: AddSubscriptionDto })
-  @Put('/add')
+  @Post('/add')
   addSubscription(@Body() dto: AddSubscriptionDto) {
     return this.userService.addSubscription(dto);
+  }
+
+  @ApiOperation({ summary: 'Method to activate subscription by user id' })
+  @ApiResponse({ status: 200, type: User })
+  @Put('/activate')
+  activate(@Param('id') id: number) {
+    return this.userService.activateSubscription(id);
   }
 }

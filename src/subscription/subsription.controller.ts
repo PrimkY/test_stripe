@@ -1,18 +1,14 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
-import { StripeService } from '../stripe/stripe.service';
-import { UserService } from '../user/user.service';
+import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from '../user/entities/user.entity';
 import { Subscription } from './entities/subscription.entity';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-import { SubsriptionService } from './subsription.service';
+import { SubscriptionService } from './subsription.service';
 
 @ApiTags('subscription')
 @Controller('subscriptions')
 export class SubscriptionsController {
-  constructor(private subscriptionService: SubsriptionService) {}
+  constructor(private subscriptionService: SubscriptionService) {}
 
   @ApiOperation({ summary: 'Creating subscription' })
   @ApiResponse({ status: 201, type: Subscription })
@@ -28,5 +24,12 @@ export class SubscriptionsController {
   @Get()
   async getSubscriptions() {
     return this.subscriptionService.getSubscriptions();
+  }
+
+  @ApiOperation({ summary: 'Method to get one subscription by id' })
+  @ApiResponse({ status: 200, type: Subscription })
+  @Get(':id')
+  getUserById(@Param('id') id: number) {
+    return this.subscriptionService.findById(id);
   }
 }

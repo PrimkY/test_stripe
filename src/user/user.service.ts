@@ -21,30 +21,38 @@ export class UserService {
     return this.usersRepository.findOne({ where: { id } });
   }
 
-  findByEmail(email: string): Promise<User> {
-    return this.usersRepository.findOne({ where: { email } });
-  }
-
   create(userData: Partial<User>): Promise<User> {
     const user = this.usersRepository.create(userData);
     return this.usersRepository.save(user);
   }
 
-  async addSubscription( dto: AddSubscriptionDto
-  ): Promise<UserSubscription> {
-    const user = await this.usersRepository.findOne({ where: { id: dto.userId } });
-    if(!user) {
-      throw new NotFoundException()
+  async addSubscription(dto: AddSubscriptionDto): Promise<UserSubscription> {
+    const user = await this.usersRepository.findOne({
+      where: { id: dto.userId },
+    });
+    if (!user) {
+      throw new NotFoundException();
     }
     const subscription = await this.subscriptionsRepository.findOne({
       where: { id: dto.subscriptionId },
     });
-    if(!subscription) {
-      throw new NotFoundException()
+    if (!subscription) {
+      throw new NotFoundException();
     }
-    console.log(dto)
-    const result =  this.userSubscriptionsRepository.save(dto);
-    console.log(result)
+    console.log('this is user', user, 'this is subscription', subscription);
+    const result = this.userSubscriptionsRepository.save(dto);
+    console.log(await result);
     return await result;
+  }
+
+  async activateSubscription(id: number) {
+    const user = await this.usersRepository.findOne({
+      where: { id: id },
+    });
+    if (!user) {
+      throw new NotFoundException();
+    }
+    user.isSubscriptionActive = true;
+    return await this.usersRepository.save(user);
   }
 }

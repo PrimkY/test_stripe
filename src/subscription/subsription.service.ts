@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Subscription } from './entities/subscription.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class SubsriptionService {
+export class SubscriptionService {
   constructor(
     @InjectRepository(Subscription)
     private subscriptionsRepository: Repository<Subscription>,
@@ -17,5 +17,9 @@ export class SubsriptionService {
 
   getSubscriptions() {
     return this.subscriptionsRepository.find();
+  }
+
+  findById(id: number): Promise<Subscription> {
+    return this.subscriptionsRepository.findOne({ where: { id } });
   }
 }
